@@ -19,7 +19,7 @@ aspect 自动集成插件
     }
 
 
-在需要申请权限的 module 中添加如下代码
+在需要的 module 中添加如下代码
 
 
     apply plugin: 'AspectPlugin'
