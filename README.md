@@ -24,7 +24,7 @@ aspect 自动集成插件
 
     apply plugin: 'AspectPlugin'
     dependencies {
-        api 'org.aspectj:aspectjrt:1.8.13'
+            api 'org.aspectj:aspectjrt:1.8.13'
     }
     
     
