@@ -8,8 +8,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.13'
-        classpath 'org.aspectj:aspectjweaver:1.8.13'
+        classpath 'org.aspectj:aspectjtools:1.9.5'
+        classpath 'org.aspectj:aspectjweaver:1.9.5'
         // classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
     }
 }
@@ -19,8 +19,8 @@ dependencies {
     // testCompile group: 'junit', name: 'junit', version: '4.12'
     compile gradleApi()
     compile localGroovy()
-    compile 'org.aspectj:aspectjtools:1.8.13'
-    compile 'org.aspectj:aspectjweaver:1.8.13'
+    compile 'org.aspectj:aspectjtools:1.9.5'
+    compile 'org.aspectj:aspectjweaver:1.9.5'
 }
 
 repositories {
