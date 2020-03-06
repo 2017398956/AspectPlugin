@@ -32,7 +32,10 @@ class AspectPlugin implements Plugin<Project> {
             if (project.android.hasProperty('applicationVariants')
                     && project.android.applicationVariants != null) {
                 project.android.applicationVariants.all { variant ->
-                    doLast(variant.getJavaCompiler())
+                    // WARNING: API 'variant.getJavaCompiler()' is obsolete and
+                    // has been replaced with 'variant.getJavaCompileProvider()'.
+                    // doLast(variant.getJavaCompiler())
+                    doLast(variant.getJavaCompileProvider())
                 }
             }
             if (project.android.hasProperty('libraryVariants')
