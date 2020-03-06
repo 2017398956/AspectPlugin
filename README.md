@@ -1,7 +1,7 @@
 # AspectPlugin
 aspect 自动集成插件
 
-[![Release Version](https://img.shields.io/badge/release-1.3-green.svg)](https://github.com/2017398956/AspectPlugin/releases)
+[![Release Version](https://img.shields.io/badge/release-1.4-green.svg)](https://github.com/2017398956/AspectPlugin/releases)
  
 ## 使用方法
 
@@ -14,7 +14,7 @@ aspect 自动集成插件
         }
         dependencies {
             ...
-            classpath 'com.github.2017398956:AspectPlugin:1.3'
+            classpath 'com.github.2017398956:AspectPlugin:1.4'
         }
     }
 
