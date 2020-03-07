@@ -35,13 +35,13 @@ class AspectPlugin implements Plugin<Project> {
                     // WARNING: API 'variant.getJavaCompiler()' is obsolete and
                     // has been replaced with 'variant.getJavaCompileProvider()'.
                     // doLast(variant.getJavaCompiler())
-                    doLast(variant.getJavaCompileProvider())
+                    doLast(variant.getJavaCompileProvider().get())
                 }
             }
             if (project.android.hasProperty('libraryVariants')
                     && project.android.libraryVariants != null) {
                 project.android.libraryVariants.all { variant ->
-                    doLast(variant.getJavaCompiler())
+                    doLast(variant.getJavaCompileProvider().get())
                 }
             }
         }
