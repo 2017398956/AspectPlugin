@@ -6,6 +6,7 @@ import org.aspectj.tools.ajc.Main
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import personal.nfl.aspect.plugin.utils.FileUtil
 
 /**
  * Created by 2017398956 on 2017/12/25.
@@ -84,17 +85,17 @@ class AspectPlugin implements Plugin<Project> {
                                   "-aspectpath", aspectPath,
                                   "-d", dPath,
                                   "-classpath", classpath,
-                                  "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
+                                  "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
             new Main().run(javacArgs, handler)
-
-            File[] kotlinClassFiles = FileUtils.listFiles(new File(kotlinInPath), null, true)
+            File[] kotlinClassFiles = FileUtil.listFiles(kotlinInPath , true)
             File javacKotlinFile
             for (File temp : kotlinClassFiles) {
                 if (temp.isFile() && temp.getName().endsWith(".class")) {
                     javacKotlinFile = new File(inPath + File.separator + temp.absolutePath.replace(kotlinInPath, ""))
                     if (null != javacKotlinFile && javacKotlinFile.exists()) {
-                        FileUtils.copyFile(javacKotlinFile, temp)
-                        FileUtils.deleteQuietly(javacKotlinFile)
+                        FileUtil.delete(temp)
+                        FileUtil.copyFile(javacKotlinFile, temp)
+                        FileUtil.delete(javacKotlinFile)
                     }
                 }
             }
