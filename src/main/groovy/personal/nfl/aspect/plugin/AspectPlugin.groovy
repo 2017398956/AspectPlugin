@@ -11,6 +11,7 @@ import org.gradle.api.Task
  * Created by 2017398956 on 2017/12/25.
  */
 class AspectPlugin implements Plugin<Project> {
+
     void apply(Project project) {
 
         // def hasApp = project.plugins.withType(AppPlugin)  //判断是否是主module
@@ -49,15 +50,53 @@ class AspectPlugin implements Plugin<Project> {
 
     private void doLast(Task javaCompile) {
         javaCompile.doLast {
-            String[] args = ["-showWeaveInfo",
-                             "-1.5",
-                             "-inpath", javaCompile.destinationDir.toString(),
-                             "-aspectpath", javaCompile.classpath.asPath,
-                             "-d", javaCompile.destinationDir.toString(),
-                             "-classpath", javaCompile.classpath.asPath,
-                             "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
             MessageHandler handler = new MessageHandler(true)
-            new Main().run(args, handler)
+            String aspectPath = javaCompile.classpath.asPath
+            String inPath = javaCompile.destinationDir.toString()
+            String dPath = javaCompile.destinationDir.toString();
+            String classpath = javaCompile.classpath.asPath
+            // 配置 kotlin 相关参数
+            String kotlinInPath = ""
+            if (dPath.contains("debug\\classes")) {
+                kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "debug"
+            } else {
+                kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "release"
+            }
+            String sourceJDK = "1.8"
+            String targetJDK = "1.8"
+            if (project.hasProperty('android')) {
+                if (project.android.hasProperty('compileOptions')) {
+                    if (project.android.compileOptions.hasProperty('targetCompatibility')) {
+                        targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
+                    }
+                    if (project.android.compileOptions.hasProperty('sourceCompatibility')) {
+                        sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
+                    }
+                }
+
+            }
+            // java 的 class 文件实现 aop
+            String[] javacArgs = ["-showWeaveInfo",
+                                  "-source", sourceJDK,
+                                  "-target", targetJDK,
+                                  "-inpath", kotlinInPath + ";" + inPath,
+                                  "-aspectpath", aspectPath,
+                                  "-d", dPath,
+                                  "-classpath", classpath,
+                                  "-bootclasspath", android.bootClasspath.join(File.pathSeparator)]
+            new Main().run(javacArgs, handler)
+
+            File[] kotlinClassFiles = FileUtils.listFiles(new File(kotlinInPath), null, true)
+            File javacKotlinFile
+            for (File temp : kotlinClassFiles) {
+                if (temp.isFile() && temp.getName().endsWith(".class")) {
+                    javacKotlinFile = new File(inPath + File.separator + temp.absolutePath.replace(kotlinInPath, ""))
+                    if (null != javacKotlinFile && javacKotlinFile.exists()) {
+                        FileUtils.copyFile(javacKotlinFile, temp)
+                        FileUtils.deleteQuietly(javacKotlinFile)
+                    }
+                }
+            }
 
             def log = project.logger
             for (IMessage message : handler.getMessages(null, true)) {
@@ -66,14 +105,14 @@ class AspectPlugin implements Plugin<Project> {
                     case IMessage.ERROR:
                     case IMessage.FAIL:
                         log.error message.message, message.thrown
-                        break
+                        break;
                     case IMessage.WARNING:
                     case IMessage.INFO:
                         log.info message.message, message.thrown
-                        break
+                        break;
                     case IMessage.DEBUG:
                         log.debug message.message, message.thrown
-                        break
+                        break;
                 }
             }
         }
