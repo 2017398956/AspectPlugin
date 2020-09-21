@@ -31,12 +31,12 @@ class AspectPlugin implements Plugin<Project> {
         //
         // project.extensions.create('aspect')
 
-        if (project.hasProperty('android')) {
-            if (project.android.hasProperty('compileOptions')) {
-                if (project.android.compileOptions.hasProperty('targetCompatibility')) {
+        if (project.hasProperty('android') && project.android != null) {
+            if (project.android.hasProperty('compileOptions') && project.android.compileOptions != null) {
+                if (project.android.compileOptions.hasProperty('targetCompatibility') && project.android.compileOptions.targetCompatibility != null) {
                     targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
                 }
-                if (project.android.compileOptions.hasProperty('sourceCompatibility')) {
+                if (project.android.compileOptions.hasProperty('sourceCompatibility') && project.android.compileOptions.sourceCompatibility != null) {
                     sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
                 }
             }

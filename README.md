@@ -1,10 +1,11 @@
 # AspectPlugin
 aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下未测试）
 
-[![Release Version](https://img.shields.io/badge/release-1.7-green.svg)](https://github.com/2017398956/AspectPlugin/releases)
+[![Release Version](https://img.shields.io/badge/release-1.8-green.svg)](https://github.com/2017398956/AspectPlugin/releases)
  
 ## 更新说明
 
+#### 1.8 修复 bug
 #### 1.7 修复 bug
 #### 1.6 支持 java 和 kotlin 混编
 
@@ -19,7 +20,7 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
         }
         dependencies {
             ...
-            classpath 'com.github.2017398956:AspectPlugin:1.7'
+            classpath 'com.github.2017398956:AspectPlugin:1.8'
         }
     }
 
