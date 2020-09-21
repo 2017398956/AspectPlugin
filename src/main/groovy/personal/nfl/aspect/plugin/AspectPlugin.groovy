@@ -12,6 +12,8 @@ import org.gradle.api.Task
  */
 class AspectPlugin implements Plugin<Project> {
 
+    String sourceJDK = "1.8"
+    String targetJDK = "1.8"
     void apply(Project project) {
 
         // def hasApp = project.plugins.withType(AppPlugin)  //判断是否是主module
@@ -28,6 +30,18 @@ class AspectPlugin implements Plugin<Project> {
         // }
         //
         // project.extensions.create('aspect')
+
+        if (project.hasProperty('android')) {
+            if (project.android.hasProperty('compileOptions')) {
+                if (project.android.compileOptions.hasProperty('targetCompatibility')) {
+                    targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
+                }
+                if (project.android.compileOptions.hasProperty('sourceCompatibility')) {
+                    sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
+                }
+            }
+
+        }
 
         if (project.hasProperty('android') && project.android != null) {
             if (project.android.hasProperty('applicationVariants')
@@ -61,19 +75,6 @@ class AspectPlugin implements Plugin<Project> {
                 kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "debug"
             } else {
                 kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "release"
-            }
-            String sourceJDK = "1.8"
-            String targetJDK = "1.8"
-            if (project.hasProperty('android')) {
-                if (project.android.hasProperty('compileOptions')) {
-                    if (project.android.compileOptions.hasProperty('targetCompatibility')) {
-                        targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
-                    }
-                    if (project.android.compileOptions.hasProperty('sourceCompatibility')) {
-                        sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
-                    }
-                }
-
             }
             // java 的 class 文件实现 aop
             String[] javacArgs = ["-showWeaveInfo",
