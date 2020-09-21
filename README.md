@@ -5,7 +5,7 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
  
 ## 更新说明
 
-####1.6 支持 java 和 kotlin 混编
+#### 1.6 支持 java 和 kotlin 混编
 
 ## 使用方法
 
