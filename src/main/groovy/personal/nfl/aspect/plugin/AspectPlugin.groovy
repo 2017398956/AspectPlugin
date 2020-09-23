@@ -13,8 +13,8 @@ import personal.nfl.aspect.plugin.utils.FileUtil
  */
 class AspectPlugin implements Plugin<Project> {
 
-    String sourceJDK = "1.8"
-    String targetJDK = "1.8"
+    private String sourceJDK = "1.8"
+    private String targetJDK = "1.8"
     void apply(Project project) {
 
         // def hasApp = project.plugins.withType(AppPlugin)  //判断是否是主module
@@ -33,31 +33,36 @@ class AspectPlugin implements Plugin<Project> {
         // project.extensions.create('aspect')
 
         if (project.hasProperty('android') && project.android != null) {
-            if (project.android.hasProperty('compileOptions') && project.android.compileOptions != null) {
-                if (project.android.compileOptions.hasProperty('targetCompatibility') && project.android.compileOptions.targetCompatibility != null) {
-                    targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
-                }
-                if (project.android.compileOptions.hasProperty('sourceCompatibility') && project.android.compileOptions.sourceCompatibility != null) {
-                    sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
-                }
-            }
-
-        }
-
-        if (project.hasProperty('android') && project.android != null) {
             if (project.android.hasProperty('applicationVariants')
                     && project.android.applicationVariants != null) {
                 project.android.applicationVariants.all { variant ->
                     // WARNING: API 'variant.getJavaCompiler()' is obsolete and
                     // has been replaced with 'variant.getJavaCompileProvider()'.
                     // doLast(variant.getJavaCompiler())
+                    doFirst(variant.getJavaCompileProvider().get())
                     doLast(variant.getJavaCompileProvider().get())
                 }
             }
             if (project.android.hasProperty('libraryVariants')
                     && project.android.libraryVariants != null) {
                 project.android.libraryVariants.all { variant ->
+                    doFirst(variant.getJavaCompileProvider().get())
                     doLast(variant.getJavaCompileProvider().get())
+                }
+            }
+        }
+    }
+
+    private void doFirst(Task javaCompile){
+        javaCompile.doFirst {
+            if (project.hasProperty('android') && project.android != null) {
+                if (project.android.hasProperty('compileOptions') && project.android.compileOptions != null) {
+                    if (project.android.compileOptions.hasProperty('targetCompatibility') && project.android.compileOptions.targetCompatibility != null) {
+                        targetJDK = project.android.compileOptions.properties.get('targetCompatibility')
+                    }
+                    if (project.android.compileOptions.hasProperty('sourceCompatibility') && project.android.compileOptions.sourceCompatibility != null) {
+                        sourceJDK = project.android.compileOptions.properties.get('sourceCompatibility')
+                    }
                 }
             }
         }
