@@ -15,6 +15,7 @@ class AspectPlugin implements Plugin<Project> {
 
     private String sourceJDK = "1.8"
     private String targetJDK = "1.8"
+
     void apply(Project project) {
 
         // def hasApp = project.plugins.withType(AppPlugin)  //判断是否是主module
@@ -31,6 +32,26 @@ class AspectPlugin implements Plugin<Project> {
         // }
         //
         // project.extensions.create('aspect')
+
+        File aopTemp = new File(project.buildFile.parentFile.absolutePath + "\\src\\main\\java\\AopTemp.java")
+        FileUtil.delete(aopTemp)
+
+        if (project.plugins.findPlugin("kotlin-android") != null) {
+            project.kotlin.target.compilations.all { variant ->
+                Task kotlinCompile = variant.getCompileKotlinTaskProvider().get()
+                if ("release" == variant.name || "debug" == variant.name) {
+                    kotlinCompile.doLast {
+                        // TODO 执行 aop 操作（待解决：当 java 代码没有变化时，javaCompile 不执行）
+                        println("kolinCompile.path : " + kotlinCompile.path)
+                        println("This is print after kotlin compile and should exc aop .")
+                        FileWriter fileWriter = new FileWriter(aopTemp)
+                        fileWriter.write("public class AopTemp {int a = " + new Random().nextInt() + ";}")
+                        fileWriter.flush()
+                        fileWriter.close()
+                    }
+                }
+            }
+        }
 
         if (project.hasProperty('android') && project.android != null) {
             if (project.android.hasProperty('applicationVariants')
@@ -53,7 +74,7 @@ class AspectPlugin implements Plugin<Project> {
         }
     }
 
-    private void doFirst(Task javaCompile){
+    private void doFirst(Task javaCompile) {
         javaCompile.doFirst {
             if (project.hasProperty('android') && project.android != null) {
                 if (project.android.hasProperty('compileOptions') && project.android.compileOptions != null) {
@@ -70,6 +91,16 @@ class AspectPlugin implements Plugin<Project> {
 
     private void doLast(Task javaCompile) {
         javaCompile.doLast {
+            if (null != aopTemp && aopTemp.exists()) {
+                println("delete file:" + aopTemp.absolutePath)
+                FileUtil.delete(aopTemp)
+            }
+            File aopTempClass = new File(dPath + File.separator + "AopTemp.class")
+            if (aopTempClass.exists()) {
+                println("delete file:" + aopTempClass.absolutePath)
+                FileUtil.delete(aopTempClass)
+            }
+
             MessageHandler handler = new MessageHandler(true)
             String aspectPath = javaCompile.classpath.asPath
             String inPath = javaCompile.destinationDir.toString()
@@ -92,7 +123,7 @@ class AspectPlugin implements Plugin<Project> {
                                   "-classpath", classpath,
                                   "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
             new Main().run(javacArgs, handler)
-            File[] kotlinClassFiles = FileUtil.listFiles(kotlinInPath , true)
+            File[] kotlinClassFiles = FileUtil.listFiles(kotlinInPath, true)
             File javacKotlinFile
             for (File temp : kotlinClassFiles) {
                 if (temp.isFile() && temp.getName().endsWith(".class")) {
