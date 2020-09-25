@@ -92,6 +92,13 @@ class AspectPlugin implements Plugin<Project> {
 
     private void doLast(Task javaCompile) {
         javaCompile.doLast {
+
+            MessageHandler handler = new MessageHandler(true)
+            String aspectPath = javaCompile.classpath.asPath
+            String inPath = javaCompile.destinationDir.toString()
+            String dPath = javaCompile.destinationDir.toString();
+            String classpath = javaCompile.classpath.asPath
+
             if (null != aopTemp && aopTemp.exists()) {
                 println("delete file:" + aopTemp.absolutePath)
                 FileUtil.delete(aopTemp)
@@ -102,11 +109,6 @@ class AspectPlugin implements Plugin<Project> {
                 FileUtil.delete(aopTempClass)
             }
 
-            MessageHandler handler = new MessageHandler(true)
-            String aspectPath = javaCompile.classpath.asPath
-            String inPath = javaCompile.destinationDir.toString()
-            String dPath = javaCompile.destinationDir.toString();
-            String classpath = javaCompile.classpath.asPath
             // 配置 kotlin 相关参数
             String kotlinInPath = ""
             if (dPath.contains("debug\\classes")) {
