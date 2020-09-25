@@ -15,6 +15,7 @@ class AspectPlugin implements Plugin<Project> {
 
     private String sourceJDK = "1.8"
     private String targetJDK = "1.8"
+    private File aopTemp
 
     void apply(Project project) {
 
@@ -33,7 +34,7 @@ class AspectPlugin implements Plugin<Project> {
         //
         // project.extensions.create('aspect')
 
-        File aopTemp = new File(project.buildFile.parentFile.absolutePath + "\\src\\main\\java\\AopTemp.java")
+        aopTemp = new File(project.buildFile.parentFile.absolutePath + "\\src\\main\\java\\AopTemp.java")
         FileUtil.delete(aopTemp)
 
         if (project.plugins.findPlugin("kotlin-android") != null) {
