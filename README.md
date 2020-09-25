@@ -1,11 +1,11 @@
 # AspectPlugin
 aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下未测试）
 
-[![Release Version](https://img.shields.io/badge/release-2.1-green.svg)](https://github.com/2017398956/AspectPlugin/releases)
+[![Release Version](https://img.shields.io/badge/release-2.3-green.svg)](https://github.com/2017398956/AspectPlugin/releases)
  
 ## 更新说明
 
-#### 2.1 解决 java 和 kotlin 混编时的缓存问题
+#### 2.3 解决 java 和 kotlin 混编时的缓存问题
 #### 2.0 支持 java 和 kotlin 混编
 
 ## 使用方法
@@ -19,7 +19,7 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
         }
         dependencies {
             ...
-            classpath 'com.github.2017398956:AspectPlugin:2.1'
+            classpath 'com.github.2017398956:AspectPlugin:2.3'
         }
     }
 
