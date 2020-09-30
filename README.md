@@ -34,4 +34,4 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
     
     
 
-可以方便 [AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 的接入
+应用示例：[AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 
