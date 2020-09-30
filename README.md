@@ -30,6 +30,8 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
     apply plugin: 'AspectPlugin'
     dependencies { api 'org.aspectj:aspectjrt:1.9.6'}
     
+另外，如果使用了 kotlin 要把 apply plugin: 'AspectPlugin' 放在 apply plugin: 'kotlin-xxx' 后面
+    
     
 
 可以方便 [AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 的接入

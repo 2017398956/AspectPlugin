@@ -42,7 +42,6 @@ class AspectPlugin implements Plugin<Project> {
                 Task kotlinCompile = variant.getCompileKotlinTaskProvider().get()
                 if ("release" == variant.name || "debug" == variant.name) {
                     kotlinCompile.doLast {
-                        // TODO 执行 aop 操作（待解决：当 java 代码没有变化时，javaCompile 不执行）
                         println("kolinCompile.path : " + kotlinCompile.path)
                         println("This is print after kotlin compile and should exc aop .")
                         FileWriter fileWriter = new FileWriter(aopTemp)
