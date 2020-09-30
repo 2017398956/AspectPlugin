@@ -33,5 +33,6 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
 另外，如果使用了 kotlin 要把 apply plugin: 'AspectPlugin' 放在 apply plugin: 'kotlin-xxx' 后面
     
     
+一个简单的 Demo ： [AspectPluginDemo](https://github.com/2017398956/AspectPluginDemo)
 
 应用示例：[AbcPermission](https://github.com/2017398956/AbcPermission "AbcPermission") 
