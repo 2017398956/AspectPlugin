@@ -34,7 +34,7 @@ class AspectPlugin implements Plugin<Project> {
         //
         // project.extensions.create('aspect')
 
-        aopTemp = new File(project.buildFile.parentFile.absolutePath + "\\src\\main\\java\\AopTemp.java")
+        aopTemp = new File(project.buildFile.parentFile.absolutePath + "${File.separator}src${File.separator}main${File.separator}java${File.separator}AopTemp.java")
         FileUtil.delete(aopTemp)
 
         if (project.plugins.findPlugin("kotlin-android") != null) {
@@ -110,16 +110,21 @@ class AspectPlugin implements Plugin<Project> {
 
             // 配置 kotlin 相关参数
             String kotlinInPath = ""
-            if (dPath.contains("debug\\classes")) {
-                kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "debug"
+            if (dPath.contains("debug${File.separator}classes")) {
+                kotlinInPath = javaCompile.temporaryDir.getParentFile().path + "${File.separator}kotlin-classes${File.separator}debug"
             } else {
-                kotlinInPath = javaCompile.temporaryDir.getParentFile().path + File.separator + "kotlin-classes" + File.separator + "release"
+                kotlinInPath = javaCompile.temporaryDir.getParentFile().path + "${File.separator}kotlin-classes${File.separator}release"
+            }
+            String pathSplit = ";"
+            if (kotlinInPath.startsWith("/")){
+                // 说明是 linux 或者 mac 环境
+                pathSplit = ":"
             }
             // java 的 class 文件实现 aop
             String[] javacArgs = ["-showWeaveInfo",
                                   "-source", sourceJDK,
                                   "-target", targetJDK,
-                                  "-inpath", kotlinInPath + ";" + inPath,
+                                  "-inpath", kotlinInPath + pathSplit + inPath,
                                   "-aspectpath", aspectPath,
                                   "-d", dPath,
                                   "-classpath", classpath,
