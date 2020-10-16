@@ -33,7 +33,9 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
     
 另外，如果使用了 kotlin 要把 apply plugin: 'AspectPlugin' 放在 apply plugin: 'kotlin-xxx' 后面
 
-**注意** ：进行 AOP 操作的文件和 AOP 操作的对象要在一个 module 中
+**注意** ：进行 AOP 操作的文件和 AOP 操作的对象要在一个 module 中。
+
+关于跨 module 操作、 对 jar 或 aar 进行 aop 操作，等我有空再支持吧。
     
     
 一个简单的 Demo ： [AspectPluginDemo](https://github.com/2017398956/AspectPluginDemo)
