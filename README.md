@@ -32,6 +32,8 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
     dependencies { api 'org.aspectj:aspectjrt:1.9.6'}
     
 另外，如果使用了 kotlin 要把 apply plugin: 'AspectPlugin' 放在 apply plugin: 'kotlin-xxx' 后面
+
+**注意** ：进行 AOP 操作的文件和 AOP 操作的对象要在一个 module 中
     
     
 一个简单的 Demo ： [AspectPluginDemo](https://github.com/2017398956/AspectPluginDemo)
