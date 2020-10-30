@@ -36,6 +36,8 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
 **注意** ：进行 AOP 操作的文件和 AOP 操作的对象要在一个 module 中。
 
 关于跨 module 操作、 对 jar 或 aar 进行 aop 操作，等我有空再支持吧。
+
+这里提供一个临时解决跨 module 的方案，例如：你需要在 B module 中对 A module 的 LogXXX.java 进行 aop 操作，那么你可以在 A module 中 写一个 AspForLogxxxx.java 的文件，并在这个 AspForLogxxxx.java 添加一个 listener （或者 一个 listener 集合）；然后在 B moudle 中 通过实例化这个 listener 或者往这个集合中添加 listener 的方式来绕过跨 module 的问题。
     
     
 一个简单的 Demo ： [AspectPluginDemo](https://github.com/2017398956/AspectPluginDemo)
