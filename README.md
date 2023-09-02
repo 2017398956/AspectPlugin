@@ -5,6 +5,7 @@ aspect 自动集成插件（适用于 Android Studio 环境下，其它环境下
  
 ## 更新说明
 
+#### 2.5.1 修复 bug
 #### 2.5 适配 gradle 8.0
 #### 2.4 解决 Linux 和 mac 下编译出错的问题
 #### 2.3 解决 java 和 kotlin 混编时的缓存问题
